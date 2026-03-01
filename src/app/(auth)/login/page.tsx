@@ -97,6 +97,7 @@ function LoginForm() {
                 onChange={(e) => setEmail(e.target.value)}
                 placeholder="you@example.com"
                 required
+                autoComplete="email"
                 className="w-full rounded-xl border border-zinc-800 bg-zinc-900/50 pl-10 pr-4 py-2.5 text-sm text-zinc-100 placeholder:text-zinc-500 focus:outline-none focus:ring-2 focus:ring-blue-500/40 focus:border-blue-500/40 hover:border-zinc-700 transition-all"
               />
             </div>
@@ -118,6 +119,7 @@ function LoginForm() {
                 placeholder="••••••••"
                 required
                 minLength={8}
+                autoComplete="current-password"
                 className="w-full rounded-xl border border-zinc-800 bg-zinc-900/50 pl-10 pr-10 py-2.5 text-sm text-zinc-100 placeholder:text-zinc-500 focus:outline-none focus:ring-2 focus:ring-blue-500/40 focus:border-blue-500/40 hover:border-zinc-700 transition-all"
               />
               <button
