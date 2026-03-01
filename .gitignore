@@ -23,6 +23,7 @@
 # misc
 .DS_Store
 *.pem
+Thumbs.db
 
 # debug
 npm-debug.log*
@@ -30,8 +31,12 @@ yarn-debug.log*
 yarn-error.log*
 .pnpm-debug.log*
 
-# env files (can opt-in for committing if needed)
-.env*
+# -----------------------------------------------
+# ENV / SECRETS — never commit these
+# -----------------------------------------------
+.env
+.env.*
+!.env.example
 
 # vercel
 .vercel
@@ -39,3 +44,13 @@ yarn-error.log*
 # typescript
 *.tsbuildinfo
 next-env.d.ts
+
+# prisma migrations lock (keep schema, ignore shadow db)
+prisma/dev.db
+prisma/dev.db-journal
+
+# editor / OS
+.vscode/settings.json
+.idea/
+*.swp
+*.swo
