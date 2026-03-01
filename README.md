@@ -53,14 +53,14 @@ cp .env.example .env
 
 Then fill in `.env` — see the table below for what each variable does.
 
-| Variable                | Required | Description                                                                   |
-| ----------------------- | -------- | ----------------------------------------------------------------------------- |
-| `DATABASE_URL`        | ✅       | PostgreSQL connection string (e.g. Neon)                                      |
-| `GOOGLE_AI_API_KEY`   | ✅       | Gemini API key from[aistudio.google.com](https://aistudio.google.com/app/apikey) |
-| `AUTH_SECRET`         | ✅       | Random secret for NextAuth — run `openssl rand -base64 32`                 |
-| `NEXT_PUBLIC_APP_URL` | ✅       | App URL (`http://localhost:3000` for local)                                 |
-| `AUTH_TRUST_HOST`     | ✅       | Set to `true`                                                               |
-| `CORS_ORIGIN`         | optional | Restrict public API origin (default `*`)                                    |
+| Variable                | Required | Description                                                                     |
+| ----------------------- | -------- | ------------------------------------------------------------------------------- |
+| `DATABASE_URL`        | ✅       | PostgreSQL connection string (e.g. Neon)                                        |
+| `GOOGLE_AI_API_KEY`   | ✅       | Gemini API key from [aistudio.google.com](https://aistudio.google.com/app/apikey) |
+| `AUTH_SECRET`         | ✅       | Random secret for NextAuth — run `openssl rand -base64 32`                   |
+| `NEXT_PUBLIC_APP_URL` | ✅       | App URL (`http://localhost:3000` for local)                                   |
+| `AUTH_TRUST_HOST`     | ✅       | Set to `true`                                                                 |
+| `CORS_ORIGIN`         | optional | Restrict public API origin (default `*`)                                      |
 
 ### 3. Push the database schema
 
