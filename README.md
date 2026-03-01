@@ -1,101 +1,130 @@
 # 🧠 Second Brain — AI-Powered Knowledge System
 
-A sophisticated knowledge management platform that captures, organizes, and intelligently surfaces knowledge using AI. Built with Next.js, React, Tailwind CSS, Prisma, and OpenAI.
+A personal knowledge management platform that captures, organises, and intelligently surfaces everything you know — powered by AI. Built with Next.js, Tailwind CSS, Prisma, and Google Gemini.
+
+> 🔗 **Live Demo:** _coming soon_
+
+---
 
 ## Features
 
-- **Knowledge Capture** — Rich form for notes, links, and insights with flexible tagging
-- **Smart Dashboard** — Search, filter, sort, and browse knowledge items with a beautiful UI
-- **AI Summarization** — Generate concise summaries of any captured content
-- **AI Auto-Tagging** — Let AI intelligently categorize your content
-- **Conversational Query** — Ask questions answered by your knowledge base
-- **Public API** — REST endpoint for programmatic access to your brain
-- **Embeddable Widget** — iframe-ready search widget for external websites
+- **Knowledge Capture** — Save notes, links, and insights with custom tags
+- **Smart Dashboard** — Search, filter, and sort your entire knowledge base
+- **AI Summarisation** — One-click AI summaries of any captured content
+- **AI Auto-Tagging** — Gemini suggests relevant tags based on your content
+- **Ask Your Brain** — Conversational chat interface that queries your knowledge base
+- **User Authentication** — Register, log in, and keep your knowledge fully private
 - **Architecture Docs** — Built-in `/docs` page documenting design decisions
+
+---
 
 ## Tech Stack
 
 | Technology | Purpose |
 |-----------|---------|
-| Next.js 15 | Full-stack React framework (App Router) |
+| Next.js 16 (App Router) | Full-stack React framework |
 | React 19 | UI components |
-| Tailwind CSS | Utility-first styling |
-| Framer Motion | Animations & parallax effects |
-| Prisma | Type-safe PostgreSQL ORM |
-| OpenAI | AI features (GPT-3.5) |
+| Tailwind CSS v4 | Utility-first styling |
+| Framer Motion | Animations & transitions |
+| Prisma 6 | Type-safe PostgreSQL ORM |
+| Neon PostgreSQL | Serverless cloud database |
+| Google Gemini 1.5 Flash | AI summarisation, tagging, querying |
+| NextAuth v5 | Authentication (JWT sessions) |
+| bcryptjs | Password hashing |
 | Lucide React | Icon system |
 
-## Quick Start
+---
+
+## Getting Started
+
+### 1. Clone & install
 
 ```bash
-# 1. Install dependencies
+git clone https://github.com/ZofSpades/Second-Brain.git
+cd Second-Brain
 npm install
+```
 
-# 2. Set up environment variables
+### 2. Configure environment variables
+
+```bash
 cp .env.example .env
-# Edit .env with your DATABASE_URL and OPENAI_API_KEY
+```
 
-# 3. Set up database
-npm run setup
+Then fill in `.env` — see the table below for what each variable does.
 
-# 4. Start development server
+| Variable | Required | Description |
+|----------|----------|-------------|
+| `DATABASE_URL` | ✅ | PostgreSQL connection string (e.g. Neon) |
+| `GOOGLE_AI_API_KEY` | ✅ | Gemini API key from [aistudio.google.com](https://aistudio.google.com/app/apikey) |
+| `AUTH_SECRET` | ✅ | Random secret for NextAuth — run `openssl rand -base64 32` |
+| `NEXT_PUBLIC_APP_URL` | ✅ | App URL (`http://localhost:3000` for local) |
+| `AUTH_TRUST_HOST` | ✅ | Set to `true` |
+| `CORS_ORIGIN` | optional | Restrict public API origin (default `*`) |
+
+### 3. Push the database schema
+
+```bash
+npx prisma db push
+```
+
+### 4. Run the development server
+
+```bash
 npm run dev
 ```
 
-Open [http://localhost:3000](http://localhost:3000) in your browser.
+Open [http://localhost:3000](http://localhost:3000).
+
+---
 
 ## Project Structure
 
 ```
 src/
 ├── app/
-│   ├── (app)/              # Pages with navbar layout
-│   │   ├── dashboard/      # Knowledge dashboard
-│   │   ├── capture/        # Create new items
-│   │   ├── knowledge/[id]/ # Item detail view
+│   ├── (app)/              # Authenticated pages (with Navbar/Footer)
+│   │   ├── dashboard/      # Knowledge base dashboard
+│   │   ├── capture/        # Create knowledge items
+│   │   ├── knowledge/[id]/ # Item detail & summarise
 │   │   ├── query/          # Ask your brain (chat)
-│   │   └── docs/           # Architecture docs
+│   │   └── docs/           # Architecture documentation
+│   ├── (auth)/             # Login & register pages
 │   ├── api/
 │   │   ├── knowledge/      # CRUD endpoints
-│   │   ├── ai/             # AI processing endpoints
-│   │   └── public/brain/   # Public query API
-│   ├── widget/             # Embeddable widget
+│   │   ├── ai/             # Summarise, auto-tag, query
+│   │   └── auth/           # NextAuth + register
 │   └── page.tsx            # Landing page
 ├── components/
-│   ├── ui/                 # Reusable components (Button, Card, Modal, etc.)
-│   ├── landing/            # Landing page sections
+│   ├── ui/                 # Button, Card, Select, Toast, ConfirmDialog …
+│   ├── landing/            # Landing page
 │   └── layout/             # Navbar, Footer
 ├── lib/
+│   ├── ai.ts               # Gemini functions
+│   ├── auth-helpers.ts     # getCurrentUserId()
 │   ├── db.ts               # Prisma client singleton
-│   ├── ai.ts               # AI utility functions
-│   └── utils.ts            # Shared utilities
-└── prisma/
-    └── schema.prisma       # Database schema
+│   ├── rate-limit.ts       # In-memory rate limiting
+│   ├── utils.ts            # Shared utilities
+│   └── validation.ts       # Input validation
+├── types/
+│   └── next-auth.d.ts      # Session type augmentation
+└── proxy.ts                # Route protection middleware
 ```
+
+---
 
 ## API Endpoints
 
+All endpoints require authentication except where noted.
+
 | Method | Path | Description |
 |--------|------|-------------|
-| GET | `/api/knowledge` | List items (?search, ?type, ?tag, ?sort) |
-| POST | `/api/knowledge` | Create item |
-| GET | `/api/knowledge/[id]` | Get item |
-| PATCH | `/api/knowledge/[id]` | Update item |
-| DELETE | `/api/knowledge/[id]` | Delete item |
-| POST | `/api/ai/summarize` | Generate AI summary |
-| POST | `/api/ai/auto-tag` | Generate AI tags |
-| POST | `/api/ai/query` | Conversational query |
-| GET | `/api/public/brain/query?q=` | Public brain query |
-
-## Deployment
-
-1. Push to GitHub
-2. Import to [Vercel](https://vercel.com)
-3. Add environment variables (`DATABASE_URL`, `OPENAI_API_KEY`)
-4. Deploy
-
-See [SETUP_REQUIRED.md](SETUP_REQUIRED.md) for detailed instructions.
-
-## License
-
-MIT
+| `GET` | `/api/knowledge` | List items (`?search` `?type` `?tag` `?sort` `?page`) |
+| `POST` | `/api/knowledge` | Create item (optional `autoSummarize`, `autoTag`) |
+| `GET` | `/api/knowledge/[id]` | Get single item |
+| `PATCH` | `/api/knowledge/[id]` | Update item |
+| `DELETE` | `/api/knowledge/[id]` | Delete item |
+| `POST` | `/api/ai/summarize` | Generate AI summary for an item |
+| `POST` | `/api/ai/auto-tag` | Generate AI tags for content |
+| `POST` | `/api/ai/query` | Conversational query against knowledge base |
+| `POST` | `/api/auth/register` | Create a new user account |

@@ -1,102 +1,63 @@
-# ============================================================
-# SETUP REQUIRED — Things You Need to Provide
-# ============================================================
-# This file lists everything the developer needs to configure
-# before the Second Brain app is fully functional & deployment-ready.
-# ============================================================
+# Setup Guide
 
-## 1. DATABASE (PostgreSQL)
+Everything you need to configure before running Second Brain.
 
-You need a PostgreSQL database. Choose ONE of these options:
+---
 
-### Option A: Neon (Recommended — Free tier, serverless)
-1. Go to https://neon.tech and create a free account
+## 1. PostgreSQL Database
+
+You need a cloud PostgreSQL database. [Neon](https://neon.tech) is recommended — it has a generous free tier and works seamlessly with Vercel.
+
+1. Create a free account at [neon.tech](https://neon.tech)
 2. Create a new project
-3. Copy the connection string from the dashboard
-4. It looks like: `postgresql://username:password@ep-xxx.region.aws.neon.tech/neondb?sslmode=require`
+3. Copy the connection string — it looks like:
+   ```
+   postgresql://user:password@ep-xxx.region.aws.neon.tech/neondb?sslmode=require
+   ```
+4. Set it as `DATABASE_URL` in your `.env`
 
-### Option B: Supabase
-1. Go to https://supabase.com and create a project
-2. Go to Settings → Database → Connection string → URI
-3. Copy the connection string
-
-### Option C: Railway
-1. Go to https://railway.app
-2. Create a new PostgreSQL service
-3. Copy the DATABASE_URL from the Variables tab
-
-### Option D: Local PostgreSQL
-1. Install PostgreSQL locally
-2. Create a database: `createdb secondbrain`
-3. Connection string: `postgresql://postgres:yourpassword@localhost:5432/secondbrain`
-
-**Action:** Set `DATABASE_URL` in your `.env` file:
-```
-DATABASE_URL="postgresql://user:password@host:5432/dbname?schema=public"
-```
-
-Then run:
+Then push the schema:
 ```bash
 npx prisma db push
 ```
 
 ---
 
-## 2. AI API KEY (OpenAI)
+## 2. Google Gemini API Key
 
-You need an OpenAI API key for AI features (summarization, auto-tagging, querying).
+AI features (summarisation, auto-tagging, conversational query) use **Google Gemini 1.5 Flash** — which has a free tier.
 
-1. Go to https://platform.openai.com/api-keys
+1. Go to [aistudio.google.com/app/apikey](https://aistudio.google.com/app/apikey)
 2. Create a new API key
-3. You need a paid account with at least $5 credit (free trial may work)
-
-**Action:** Set `OPENAI_API_KEY` in your `.env` file:
-```
-OPENAI_API_KEY="sk-your-actual-api-key-here"
-```
-
-### Alternative: Use a different AI provider
-If you prefer Claude or Gemini, you'll need to modify `src/lib/ai.ts` to use that provider's SDK instead. The function signatures stay the same — just swap the implementation.
+3. Set it as `GOOGLE_AI_API_KEY` in your `.env`
 
 ---
 
-## 3. DEPLOYMENT
+## 3. NextAuth Secret
 
-### Frontend (Vercel — Recommended)
-1. Push your code to GitHub
-2. Go to https://vercel.com and import your repository
-3. Set the following environment variables in Vercel dashboard:
-   - `DATABASE_URL` — your PostgreSQL connection string
-   - `OPENAI_API_KEY` — your OpenAI API key
-   - `NEXT_PUBLIC_APP_URL` — your Vercel deployment URL (e.g., https://your-app.vercel.app)
-4. Deploy!
+Generate a secure random secret for signing session tokens:
 
-### Database (must be accessible from Vercel)
-- If using Neon/Supabase/Railway, it's already cloud-hosted — just use the connection string
-- Local PostgreSQL will NOT work with Vercel — you must use a cloud database
+```bash
+openssl rand -base64 32
+```
+
+Set the output as `AUTH_SECRET` in your `.env`.
 
 ---
 
-## 4. COMPLETE .env FILE
+## 4. Complete `.env` File
 
 Copy `.env.example` to `.env` and fill in all values:
 
 ```env
-# REQUIRED: PostgreSQL Database URL
-DATABASE_URL="postgresql://user:password@host:5432/secondbrain?schema=public"
-
-# REQUIRED for AI features: OpenAI API Key
-OPENAI_API_KEY="sk-your-openai-api-key"
-
-# REQUIRED for deployment: Your app's public URL
+DATABASE_URL="postgresql://user:password@host/dbname?sslmode=require"
+GOOGLE_AI_API_KEY="your-gemini-api-key"
 NEXT_PUBLIC_APP_URL="http://localhost:3000"
-
-# OPTIONAL: Restrict CORS for public API (default: "*" allows all origins)
-# Set to your domain in production for security
-CORS_ORIGIN="https://yourdomain.com"
+AUTH_SECRET="your-generated-secret"
+AUTH_TRUST_HOST=true
+CORS_ORIGIN="*"
+NODE_ENV="development"
 ```
-
----
 
 ## 5. FIRST-TIME SETUP COMMANDS
 
