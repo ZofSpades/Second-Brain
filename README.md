@@ -2,7 +2,7 @@
 
 A personal knowledge management platform that captures, organises, and intelligently surfaces everything you know — powered by AI. Built with Next.js, Tailwind CSS, Prisma, and Google Gemini.
 
-> 🔗 **Live Demo:** _coming soon_
+> 🔗 **Live Demo:** [second-brain-zofspades.vercel.app](https://second-brain-zofspades.vercel.app)
 
 ---
 
