@@ -2,7 +2,7 @@
 
 A personal knowledge management platform that captures, organises, and intelligently surfaces everything you know — powered by AI. Built with Next.js, Tailwind CSS, Prisma, and Google Gemini.
 
-> 🔗 **Live Demo:** [second-brain-zofspades.vercel.app](https://second-brain-zofspades.vercel.app)
+> 🔗 **Live:** [second-brain-zofspades.vercel.app](https://second-brain-zofspades.vercel.app)
 
 ---
 
@@ -20,18 +20,18 @@ A personal knowledge management platform that captures, organises, and intellige
 
 ## Tech Stack
 
-| Technology | Purpose |
-|-----------|---------|
-| Next.js 16 (App Router) | Full-stack React framework |
-| React 19 | UI components |
-| Tailwind CSS v4 | Utility-first styling |
-| Framer Motion | Animations & transitions |
-| Prisma 6 | Type-safe PostgreSQL ORM |
-| Neon PostgreSQL | Serverless cloud database |
+| Technology              | Purpose                             |
+| ----------------------- | ----------------------------------- |
+| Next.js 16 (App Router) | Full-stack React framework          |
+| React 19                | UI components                       |
+| Tailwind CSS v4         | Utility-first styling               |
+| Framer Motion           | Animations & transitions            |
+| Prisma 6                | Type-safe PostgreSQL ORM            |
+| Neon PostgreSQL         | Serverless cloud database           |
 | Google Gemini 1.5 Flash | AI summarisation, tagging, querying |
-| NextAuth v5 | Authentication (JWT sessions) |
-| bcryptjs | Password hashing |
-| Lucide React | Icon system |
+| NextAuth v5             | Authentication (JWT sessions)       |
+| bcryptjs                | Password hashing                    |
+| Lucide React            | Icon system                         |
 
 ---
 
@@ -53,14 +53,14 @@ cp .env.example .env
 
 Then fill in `.env` — see the table below for what each variable does.
 
-| Variable | Required | Description |
-|----------|----------|-------------|
-| `DATABASE_URL` | ✅ | PostgreSQL connection string (e.g. Neon) |
-| `GOOGLE_AI_API_KEY` | ✅ | Gemini API key from [aistudio.google.com](https://aistudio.google.com/app/apikey) |
-| `AUTH_SECRET` | ✅ | Random secret for NextAuth — run `openssl rand -base64 32` |
-| `NEXT_PUBLIC_APP_URL` | ✅ | App URL (`http://localhost:3000` for local) |
-| `AUTH_TRUST_HOST` | ✅ | Set to `true` |
-| `CORS_ORIGIN` | optional | Restrict public API origin (default `*`) |
+| Variable                | Required | Description                                                                   |
+| ----------------------- | -------- | ----------------------------------------------------------------------------- |
+| `DATABASE_URL`        | ✅       | PostgreSQL connection string (e.g. Neon)                                      |
+| `GOOGLE_AI_API_KEY`   | ✅       | Gemini API key from[aistudio.google.com](https://aistudio.google.com/app/apikey) |
+| `AUTH_SECRET`         | ✅       | Random secret for NextAuth — run `openssl rand -base64 32`                 |
+| `NEXT_PUBLIC_APP_URL` | ✅       | App URL (`http://localhost:3000` for local)                                 |
+| `AUTH_TRUST_HOST`     | ✅       | Set to `true`                                                               |
+| `CORS_ORIGIN`         | optional | Restrict public API origin (default `*`)                                    |
 
 ### 3. Push the database schema
 
@@ -117,14 +117,14 @@ src/
 
 All endpoints require authentication except where noted.
 
-| Method | Path | Description |
-|--------|------|-------------|
-| `GET` | `/api/knowledge` | List items (`?search` `?type` `?tag` `?sort` `?page`) |
-| `POST` | `/api/knowledge` | Create item (optional `autoSummarize`, `autoTag`) |
-| `GET` | `/api/knowledge/[id]` | Get single item |
-| `PATCH` | `/api/knowledge/[id]` | Update item |
-| `DELETE` | `/api/knowledge/[id]` | Delete item |
-| `POST` | `/api/ai/summarize` | Generate AI summary for an item |
-| `POST` | `/api/ai/auto-tag` | Generate AI tags for content |
-| `POST` | `/api/ai/query` | Conversational query against knowledge base |
-| `POST` | `/api/auth/register` | Create a new user account |
+| Method     | Path                    | Description                                                     |
+| ---------- | ----------------------- | --------------------------------------------------------------- |
+| `GET`    | `/api/knowledge`      | List items (`?search` `?type` `?tag` `?sort` `?page`) |
+| `POST`   | `/api/knowledge`      | Create item (optional `autoSummarize`, `autoTag`)           |
+| `GET`    | `/api/knowledge/[id]` | Get single item                                                 |
+| `PATCH`  | `/api/knowledge/[id]` | Update item                                                     |
+| `DELETE` | `/api/knowledge/[id]` | Delete item                                                     |
+| `POST`   | `/api/ai/summarize`   | Generate AI summary for an item                                 |
+| `POST`   | `/api/ai/auto-tag`    | Generate AI tags for content                                    |
+| `POST`   | `/api/ai/query`       | Conversational query against knowledge base                     |
+| `POST`   | `/api/auth/register`  | Create a new user account                                       |
