@@ -1,10 +1,14 @@
 import NextAuth from "next-auth";
 import Credentials from "next-auth/providers/credentials";
+import { PrismaAdapter } from "@auth/prisma-adapter";
 import { prisma } from "@/lib/db";
 import bcrypt from "bcryptjs";
 
 export const { handlers, auth, signIn, signOut } = NextAuth({
+  adapter: PrismaAdapter(prisma),
   session: { strategy: "jwt" },
+  secret: process.env.AUTH_SECRET,
+  trustHost: true,
   pages: {
     signIn: "/login",
   },
@@ -17,23 +21,23 @@ export const { handlers, auth, signIn, signOut } = NextAuth({
       },
       async authorize(credentials) {
         if (!credentials?.email || !credentials?.password) {
-          return null;
+          throw new Error("Email and password are required");
         }
 
-        const email = credentials.email as string;
+        const email = (credentials.email as string).toLowerCase().trim();
         const password = credentials.password as string;
 
         const user = await prisma.user.findUnique({
-          where: { email: email.toLowerCase().trim() },
+          where: { email },
         });
 
         if (!user || !user.hashedPassword) {
-          return null;
+          throw new Error("Invalid email or password");
         }
 
         const isValid = await bcrypt.compare(password, user.hashedPassword);
         if (!isValid) {
-          return null;
+          throw new Error("Invalid email or password");
         }
 
         return {
